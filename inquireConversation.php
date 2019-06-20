@@ -245,7 +245,7 @@ class inquireConversation extends Conversation {
                         . 'For those students who have a schedule for their physical exam, please do not forget to bring your medical results.'
                         . '<br>'
                         . 'Also, only those scheduled for physical exam that day will be entertained. Students that will be caught using referral forms or information sheets with tampered/photocopied scheduled dates will not be entertained.');
-                $this->goBackExam();
+                $this->askBack();
             } else if ($continue === 'back') {
                 $this->askCategory();
             } else {
@@ -265,7 +265,17 @@ class inquireConversation extends Conversation {
             $continue = strtolower(trim($answer->getText()));
 
             if ($continue === 'form') {
-                $this->say('Please check the forms at this link: ');
+                $this->say('Please check the forms at this link: '
+                        . '<br>'
+                        . '<br>'
+                        . 'APPLICATION FOR ADMISSION FORM'
+                        . '<br>'
+                        . 'https://cvsu.edu.ph/wp-content/uploads/2019/01/2019-application-form-for-admission.pdf'
+                        . '<br>'
+                        . '<br>'
+                        . 'PRE-REGISTRATION FORM'
+                        . '<br>'
+                        . 'https://drive.google.com/file/d/1D8yZCXl3Xc7kCTGz61EjVRse_incTN96/view');
             } else if ($continue === 'fee') {
 //                $a = rand(0,5);
 //                $this->say("{$a}");
