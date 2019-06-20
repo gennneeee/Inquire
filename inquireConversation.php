@@ -239,6 +239,12 @@ class inquireConversation extends Conversation {
                         . '3. Fee #3 : Php300');
                 $this->askBack();
             } else if ($continue === 'proc') {
+                $this->say('Medical Procedures'
+                        . '<br>'
+                        . '<br>'
+                        . 'For those students who have a schedule for their physical exam, please do not forget to bring your medical results.'
+                        . '<br>'
+                        . 'Also, only those scheduled for physical exam that day will be entertained. Students that will be caught using referral forms or information sheets with tampered/photocopied scheduled dates will not be entertained.');
                 $this->goBackExam();
             } else if ($continue === 'back') {
                 $this->askCategory();
