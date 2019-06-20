@@ -10,7 +10,6 @@ use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 class inquireConversation extends Conversation {
 
     protected $name;
-    protected $sbjCode;
 
     public function askName() {
         $this->ask('Good day! May I know your full name?', function(Answer $answer) {
