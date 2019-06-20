@@ -38,8 +38,8 @@ class inquireConversation extends Conversation {
     public function askTry() {
         $question = Question::create('What do you want me to do?')
                 ->addButton(Button::create("Tell a Joke")->value('joke'))
-                ->addButton(Button::create("Medical")->value('m'))
-                ->addButton(Button::create("Enrollment")->value('e'));
+                ->addButton(Button::create("What's the weather?")->value('m'))
+                ->addButton(Button::create("Tell me the time.")->value('e'));
         
         $this->ask($question, function(Answer $answer) {
             $continue = strtolower(trim($answer->getText()));
@@ -121,9 +121,30 @@ class inquireConversation extends Conversation {
             $continue = strtolower(trim($answer->getText()));
 
             if ($continue === 'req') {
-                $this->goBackExam();
+                $this->say('Medical Requirements'
+                        . '<br>'
+                        . '<br>'
+                        . '<br>'
+                        . '1. ????????'
+                        . '<br>'
+                        . '2. ????????'
+                        . '<br>'
+                        . '3. ????????'
+                        . '<br>'
+                        . '4. ????????'
+                        . '<br>'
+                        . '5. ????????');
+                $this->askBack();
             } else if ($continue === 'fee') {
-                $this->goBackExam();
+                $this->say('Medical Fees'
+                        . '<br>'
+                        . '<br>'
+                        . '1. Fee #1 : Free'
+                        . '<br>'
+                        . '2. Fee #2 : Php220'
+                        . '<br>'
+                        . '3. Fee #3 : Php300');
+                $this->askBack();
             } else if ($continue === 'proc') {
                 $this->goBackExam();
             } else if ($continue === 'back') {
@@ -159,7 +180,7 @@ class inquireConversation extends Conversation {
         });
     }
      public function askBack() {
-       $question = Question::create("That's all for now. What do you want to do?")
+       $question = Question::create("That's all for now. What do you want to do next?")
                 ->addButton(Button::create("Go Back")->value('back1'))
                 ->addButton(Button::create("End Conversation")->value('end'));
        $this->ask($question, function(Answer $answer) {
@@ -168,7 +189,7 @@ class inquireConversation extends Conversation {
             if ($continue === 'end') {
                 $this->say("Thank you for using CvSU Ask! I'm hoping to chat with you again.");
             } else if ($continue === 'back1') {
-                $this->Requirements();
+                $this->askCategory();
             }
         });
     }
