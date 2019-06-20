@@ -35,21 +35,47 @@ class inquireConversation extends Conversation {
             }
         });
     }
+
     public function askTry() {
         $question = Question::create('What do you want me to do?')
                 ->addButton(Button::create("Tell a Joke")->value('joke'))
                 ->addButton(Button::create("What's the weather?")->value('m'))
                 ->addButton(Button::create("Tell me the time.")->value('e'));
-        
+
         $this->ask($question, function(Answer $answer) {
             $continue = strtolower(trim($answer->getText()));
 
             if ($continue === 'joke') {
-                $this->say("Why can't astronauts eat popsicles?"
+                $a = rand(0, 8);
+                if ($a === 0) {
+                    $this->say("Why can't astronauts eat popsicles?"
                         . '<br>'
                         . '<br>'
                         . '<br>'
                         . 'In space, no one can hear the ice cream truck 🚀🚫🍧 ');
+                    $this->jokes();
+                } else if ($a === 1) {
+                    $this->say("Joke #2");
+                    $this->jokeAgain();
+                } else if ($a === 2) {
+                    $this->say("Joke #3");
+                    $this->jokeAgain();
+                } else if ($a === 3) {
+                    $this->say("Joke #4");
+                    $this->jokeAgain();
+                } else if ($a === 4) {
+                    $this->say("Joke #5");
+                    $this->jokeAgain();
+                } else if ($a === 5) {
+                    $this->say("Joke #6");
+                    $this->jokeAgain();
+                } else if ($a === 6) {
+                    $this->say("Joke #7");
+                    $this->jokeAgain();
+                } else if ($a === 7) {
+                    $this->say("Joke #8");
+                    $this->jokeAgain();
+                }
             } else if ($continue === 'm') {
                 $this->say('I want to inquire about the medical procedures.');
                 $this->askDrop();
@@ -62,13 +88,80 @@ class inquireConversation extends Conversation {
             }
         });
     }
+    
+    public function jokeAgain() {
+        $question = Question::create('Do you want another joke?')
+                ->addButton(Button::create("Yes, please!")->value('y'))
+                ->addButton(Button::create("No, I want to go back")->value('back'));
+
+        $this->ask($question, function(Answer $answer) {
+            $continue = strtolower(trim($answer->getText()));
+
+            if ($continue === 'y') {
+                $this->jokes();
+            } else if ($continue === 'back') {
+                $this->say('I want to inquire about the medical procedures.');
+                $this->askMedical();
+            } else {
+                $this->say('Invalid Choice!');
+                $this->jokeAgain();
+            }
+        });
+    }
+    
+    public function jokes() {
+            $continue = 'joke';
+
+            if ($continue === 'joke') {
+                $a = rand(0, 8);
+                if ($a === 0) {
+                    $this->say("Why can't astronauts eat popsicles?"
+                        . '<br>'
+                        . '<br>'
+                        . '<br>'
+                        . 'In space, no one can hear the ice cream truck 🚀🚫🍧 ');
+                    $this->jokeAgain();
+                } else if ($a === 1) {
+                    $this->say("Joke #2");
+                    $this->jokeAgain();
+                } else if ($a === 2) {
+                    $this->say("Joke #3");
+                    $this->jokeAgain();
+                } else if ($a === 3) {
+                    $this->say("Joke #4");
+                    $this->jokeAgain();
+                } else if ($a === 4) {
+                    $this->say("Joke #5");
+                    $this->jokeAgain();
+                } else if ($a === 5) {
+                    $this->say("Joke #6");
+                    $this->jokeAgain();
+                } else if ($a === 6) {
+                    $this->say("Joke #7");
+                    $this->jokeAgain();
+                } else if ($a === 7) {
+                    $this->say("Joke #8");
+                    $this->jokeAgain();
+                }
+            } else if ($continue === 'm') {
+                $this->say('I want to inquire about the medical procedures.');
+                $this->askDrop();
+            } else if ($continue === 'e') {
+                $this->say('I want to inquire about the enrollment procedures.');
+                $this->askDrop();
+            } else {
+                $this->say('Your chosen question is not yet available on any of our services for now.');
+                $this->askCategory();
+            }
+    }
+
     public function askCategory() {
         $question = Question::create('What are you going to inquire?')
                 ->addButton(Button::create("Admission")->value('a'))
                 ->addButton(Button::create("Medical")->value('m'))
                 ->addButton(Button::create("Enrollment")->value('e'))
                 ->addButton(Button::create("Go Back")->value('back'));
-        
+
         $this->ask($question, function(Answer $answer) {
             $continue = strtolower(trim($answer->getText()));
 
@@ -110,7 +203,7 @@ class inquireConversation extends Conversation {
             }
         });
     }
-    
+
     public function askMedical() {
         $question = Question::create('What do you want to know about medical procedures?')
                 ->addButton(Button::create("Medical Requirements")->value('req'))
@@ -155,7 +248,7 @@ class inquireConversation extends Conversation {
             }
         });
     }
-    
+
     public function askEnrollment() {
         $question = Question::create('What do you want to know about enrollment?')
                 ->addButton(Button::create("Forms")->value('form'))
@@ -166,9 +259,10 @@ class inquireConversation extends Conversation {
             $continue = strtolower(trim($answer->getText()));
 
             if ($continue === 'form') {
-                
+                $this->say('Please check the forms at this link: ');
             } else if ($continue === 'fee') {
-                
+//                $a = rand(0,5);
+//                $this->say("{$a}");
             } else if ($continue === 'proc') {
                 
             } else if ($continue === 'back') {
@@ -179,11 +273,12 @@ class inquireConversation extends Conversation {
             }
         });
     }
-     public function askBack() {
-       $question = Question::create("That's all for now. What do you want to do next?")
+
+    public function askBack() {
+        $question = Question::create("That's all for now. What do you want to do next?")
                 ->addButton(Button::create("Go Back")->value('back1'))
                 ->addButton(Button::create("End Conversation")->value('end'));
-       $this->ask($question, function(Answer $answer) {
+        $this->ask($question, function(Answer $answer) {
             $continue = strtolower(trim($answer->getText()));
 
             if ($continue === 'end') {
@@ -193,6 +288,7 @@ class inquireConversation extends Conversation {
             }
         });
     }
+
     public function Examination() {
         $question = Question::create('The schedule of entrance exam is already closed.')
                 ->addButton(Button::create("Go Back")->value('back'));
@@ -206,6 +302,7 @@ class inquireConversation extends Conversation {
             }
         });
     }
+
     public function Requirements() {
         $question = Question::create('What is your current standing?')
                 ->addButton(Button::create("New Student")->value('new'))
@@ -219,7 +316,7 @@ class inquireConversation extends Conversation {
             if ($continue === 'new') {
                 $this->say('New Student '
                         . '<br>'
-                        . '<br>'.'(Senior High School, Alternative Learning System or ALS passers, Basic Education Curriculum or BEC graduate)'
+                        . '<br>' . '(Senior High School, Alternative Learning System or ALS passers, Basic Education Curriculum or BEC graduate)'
                         . '<br>'
                         . '<br>'
                         . '1. Accomplished Application Form.'
@@ -232,7 +329,7 @@ class inquireConversation extends Conversation {
                         . '<br>'
                         . '5. Photocopy of Certificate of Good Moral Character.');
                 $this->askBack();
-            } else if($continue === 'old') {
+            } else if ($continue === 'old') {
                 $this->say('REQUIREMENTS FOR OLD STUDENT'
                         . '<br>'
                         . '<br>'
@@ -242,7 +339,7 @@ class inquireConversation extends Conversation {
                         . '<br>'
                         . '3. Submit the 1 copy of Pre - Registration Form with sign of Adviser and College Registrar to your respected Admin Registrar Window.');
                 $this->askBack();
-            } else if($continue === 'trans') {
+            } else if ($continue === 'trans') {
                 $this->say('FOR INCOMING TRANSFEREES'
                         . '<br>'
                         . '<br>'
@@ -258,9 +355,9 @@ class inquireConversation extends Conversation {
                         . '<br>'
                         . '6. follow the enrollment procedure (at Registrar Office).');
                 $this->askBack();
-            } else if($continue === 'back') {
+            } else if ($continue === 'back') {
                 $this->askAdmission();
-            } 
+            }
         });
     }
 
